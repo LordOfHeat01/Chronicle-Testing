@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UPMS Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      border-bottom: 3px solid darkgreen;
+      background-color: #fff;
+    }
+    .title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: darkgreen;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #555;
+    }
+    .login-container {
+      margin-top: 50px;
+      max-width: 450px;
+    }
+    .footer {
+      background-color: #e9ecef;
+      padding: 20px;
+      text-align: center;
+      margin-top: 60px;
+    }
+    .btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header-container">
+    <div>
+      <div class="title">UPMS</div>
+      <div class="subtitle">Connecting Research and Researchers</div>
+    </div>
+    <form class="d-flex" role="search" action="search.html" method="get">
+      <input class="form-control me-2" type="search" name="q" placeholder="Search ORCID registry..." aria-label="Search">
+      <button class="btn btn-success btn-icon" type="submit">
+        <i class="bi bi-search"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Login Box -->
+  <div class="container d-flex justify-content-center">
+    <div class="card p-4 shadow login-container">
+      <h3 class="text-center mb-4">Sign In</h3>
+      <ul class="nav nav-tabs mb-3" id="loginTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="orcid-tab" data-bs-toggle="tab" data-bs-target="#orcid" type="button" role="tab">ORCID Login</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="institution-tab" data-bs-toggle="tab" data-bs-target="#institution" type="button" role="tab">Institution Login</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <!-- ORCID Login -->
+        <div class="tab-pane fade show active" id="orcid" role="tabpanel">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">ORCID iD or Email</label>
+              <input type="text" class="form-control" placeholder="0000-1234-5678-9101 or joe@institution.edu">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" placeholder="Enter ORCID password">
+            </div>
+            <button type="submit" class="btn btn-success w-100">Sign in with ORCID</button>
+            <div class="text-center mt-2">
+              <a href="#">Forgot ORCID iD or password?</a>
+            </div>
+          </form>
+        </div>
+        <!-- Institution Login -->
+        <div class="tab-pane fade" id="institution" role="tabpanel">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Institutional Email</label>
+              <input type="email" class="form-control" placeholder="you@institution.edu">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" placeholder="Enter institution password">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign in with Institution</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 University Publication Management System (UPMS). All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
