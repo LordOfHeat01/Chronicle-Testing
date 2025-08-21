@@ -18,9 +18,9 @@ public class Scrapper {
 
         // ORCID IDs list
         List<String> orcids = Arrays.asList(
-                "0000-0001-5384-6606" // <-- aur bhi daal sakta hai
+             "0000-0002-2279-9373" // <-- aur bhi daal sakta hai
         );
-
+        //"0000-0001-5384-6606","0000-0002-2279-9373","0000-0002-2012-1462"
         try {
             for (String orcid : orcids) {
                 driver.get("https://www.scopus.com/freelookup/form/author.uri");

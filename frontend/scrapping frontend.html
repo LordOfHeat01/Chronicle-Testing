@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ORCID Article Finder</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 350px;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #667eea;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #5563c1;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #444;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Enter your ORCID ID</h1>
+    <input type="text" id="orcidInput" placeholder="e.g. 0000-0002-1825-0097">
+    <button onclick="fetchArticle()">Enter</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    async function fetchArticle() {
+      const orcid = document.getElementById("orcidInput").value;
+      const resultDiv = document.getElementById("result");
+
+      resultDiv.innerText = "Fetching articles... ⏳";
+
+      try {
+        const response = await fetch("http://localhost:8080/api/articles?orcid=" + orcid);
+        const data = await response.json();
+
+        if (data.articleName) {
+          resultDiv.innerText = "Article: " + data.articleName;
+        } else {
+          resultDiv.innerText = "No article found for this ORCID.";
+        }
+      } catch (error) {
+        resultDiv.innerText = "Error fetching article ❌";
+      }
+    }
+  </script>
+</body>
+</html>
