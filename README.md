@@ -28,20 +28,6 @@ Automation: Selenium (for publication verification via ORCID)
 Development Tools: GitHub for version control, testing repo for experimental builds
 
 
-Setup
-# Clone the repo
-git clone https://github.com/<your-username>/Chronicle.git
-cd Chronicle
-
-
-🔎 Usage
-
-Add a publication using enrollment/employee number.
-
-Run Selenium module to automatically fetch & verify details from ORCID.
-
-Publications get stored in the database for analytics and reporting.
-
 🧪 Development Note
 
 This repo is under active development and used mainly for testing new features and integrations.
