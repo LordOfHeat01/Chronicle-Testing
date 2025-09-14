@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9370bdb8-8913-49a2-9727-0d3ded8a7c10" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Scrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Scrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +20,24 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="tapendra1" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -42,6 +60,9 @@
     "Application.Main.executor": "Run",
     "Application.ScopusScraper.executor": "Run",
     "Application.Scrapper.executor": "Run",
+    "Application.Version2.executor": "Run",
+    "Application.Version2_Publications.executor": "Run",
+    "Application.Version2a.executor": "Run",
     "Application.test.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -51,7 +72,7 @@
     "onboarding.tips.debug.path": "D:/COMPUTER SCIENCE ENGINEERING/Coding/Chronicle/src/main/java/org/example/Main.java"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Scrapper">
+  <component name="RunManager">
     <configuration name="GoogleSearchExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.GoogleSearchExample" />
       <module name="Chronicle" />
