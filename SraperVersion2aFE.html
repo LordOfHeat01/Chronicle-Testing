@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scopus Article Fetcher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #7f8c8d;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .results {
+            margin-top: 30px;
+        }
+        
+        .result-count {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .article-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .article-item {
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .article-title {
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .error {
+            background: #ffeaa7;
+            color: #d63031;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #d63031;
+        }
+        
+        .success {
+            background: #d5f5e3;
+            color: #27ae60;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Scopus Article Fetcher</h1>
+        
+        <div class="input-section">
+            <input type="text" id="orcidInput" placeholder="Enter ORCID ID (e.g., 0000-0002-2279-9373)" />
+            <button id="fetchBtn" onclick="fetchArticles()">Fetch Articles</button>
+        </div>
+        
+        <div id="error" class="error hidden"></div>
+        <div id="success" class="success hidden"></div>
+        
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Fetching articles from Scopus...</p>
+        </div>
+        
+        <div id="results" class="results hidden">
+            <div class="result-count" id="resultCount">Articles Found: 0</div>
+            <div id="articleList" class="article-list"></div>
+        </div>
+    </div>
+
+    <script>
+        function fetchArticles() {
+            const orcid = document.getElementById('orcidInput').value.trim();
+            
+            if (!orcid) {
+                showError('Please enter an ORCID ID');
+                return;
+            }
+            
+            // Basic ORCID format validation
+            if (!/^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/.test(orcid)) {
+                showError('Please enter a valid ORCID ID format (e.g., 0000-0002-2279-9373)');
+                return;
+            }
+            
+            showLoading();
+            hideError();
+            hideSuccess();
+            hideResults();
+            
+            // Simulate API call (replace with actual backend call later)
+            simulateApiCall(orcid);
+        }
+        
+        function simulateApiCall(orcid) {
+            // Simulate network delay
+            setTimeout(() => {
+                hideLoading();
+                
+                // Mock data - replace this with actual API response
+                const mockData = {
+                    success: true,
+                    articles: [
+                        "Integration of Deep Learning Algorithms into VANET",
+                        "A Novel Framework for Text Preprocessing using NLP Approaches",
+                        "Digitally Enhanced Adaptive Security: A Solution for Power Theft in Smart Cities",
+                        "Machine Learning Based Intrusion Detection System for IoT Applications",
+                        "Cloud Computing Security: Challenges and Solutions"
+                    ],
+                    count: 5
+                };
+                
+                if (mockData.success) {
+                    showSuccess(`Successfully fetched articles for ORCID: ${orcid}`);
+                    displayResults(mockData.articles, mockData.count);
+                } else {
+                    showError('Failed to fetch articles. Please try again.');
+                }
+            }, 2000);
+        }
+        
+        function displayResults(articles, count) {
+            const resultCount = document.getElementById('resultCount');
+            const articleList = document.getElementById('articleList');
+            
+            resultCount.textContent = `Articles Found: ${count}`;
+            articleList.innerHTML = '';
+            
+            articles.forEach((article, index) => {
+                const articleDiv = document.createElement('div');
+                articleDiv.className = 'article-item';
+                articleDiv.innerHTML = `
+                    <div class="article-title">${index + 1}. ${article}</div>
+                `;
+                articleList.appendChild(articleDiv);
+            });
+            
+            showResults();
+        }
+        
+        function showLoading() {
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('fetchBtn').disabled = true;
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('fetchBtn').disabled = false;
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+        
+        function hideError() {
+            document.getElementById('error').classList.add('hidden');
+        }
+        
+        function showSuccess(message) {
+            const successDiv = document.getElementById('success');
+            successDiv.textContent = message;
+            successDiv.classList.remove('hidden');
+        }
+        
+        function hideSuccess() {
+            document.getElementById('success').classList.add('hidden');
+        }
+        
+        function showResults() {
+            document.getElementById('results').classList.remove('hidden');
+        }
+        
+        function hideResults() {
+            document.getElementById('results').classList.add('hidden');
+        }
+        
+        // Allow Enter key to submit
+        document.getElementById('orcidInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                fetchArticles();
+            }
+        });
+    </script>
+</body>
+</html>
