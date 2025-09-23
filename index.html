@@ -1,331 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Chronicle - Academic Reference Manager</title>
-<style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f7fa;
-        margin: 0;
-        padding: 20px;
-    }
-    h2 {
-        text-align: center;
-        color: #333;
-    }
-    .sub-message {
-        text-align: center;
-        font-size: 1.2em;
-        color: #777;
-        margin-bottom: 20px;
-    }
-    .reference-button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 15px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        width: 200px;
-        text-align: center;
-    }
-    .reference-button:hover {
-        background-color: #0056b3;
-    }
-    .reference-options {
-        display: none;
-        margin-top: 10px;
-        padding: 10px;
-        background-color: #e9f5ff;
-        border-radius: 4px;
-        border: 1px solid #b3d7ff;
-        text-align: center;
-    }
-    .reference-options button {
-        margin: 5px;
-        padding: 10px 15px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    .reference-options button:hover {
-        background-color: #218838;
-    }
-    form {
-        max-width: 600px;
-        margin: 20px auto;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        padding: 20px;
-        display: none;
-    }
-    .form-group {
-        margin-bottom: 15px;
-    }
-    label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #555;
-    }
-    input[type="text"], input[type="date"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        transition: border-color 0.3s;
-    }
-    input[type="text"]:focus, input[type="date"]:focus {
-        border-color: #007BFF;
-        outline: none;
-    }
-    button.submit-button {
-        padding: 10px 15px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        width: 100%;
-        margin-top: 10px;
-    }
-    button.submit-button:hover {
-        background-color: #0056b3;
-    }
-    .authors-list {
-        margin-top: 10px;
-        padding: 10px;
-        background-color: #e9f5ff;
-        border-radius: 4px;
-        border: 1px solid #b3d7ff;
-    }
-    .author-row {
-        margin-bottom: 5px;
-        padding: 5px;
-        border-bottom: 1px solid #ccc;
-    }
-    .author-row:last-child {
-        border-bottom: none;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Reference Manager</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .sub-message {
+            text-align: center;
+            font-size: 1.2em;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        .reference-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 200px;
+            text-align: center;
+        }
+        .reference-button:hover {
+            background-color: #0056b3;
+        }
+        .reference-options {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9f5ff;
+            border-radius: 4px;
+            border: 1px solid #b3d7ff;
+            text-align: center;
+        }
+        .reference-options button {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .reference-options button:hover {
+            background-color: #218838;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, input[type="date"]:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+        button.submit-button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        button.submit-button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .authors-list, .issn-list {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9f5ff;
+            border-radius: 4px;
+            border: 1px solid #b3d7ff;
+        }
+        .author-row, .issn-row {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+        .author-row:last-child, .issn-row:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
 
 <h2>Welcome to Smart Chronicle</h2>
 <div class="sub-message">Your Academic Reference Manager</div>
-
 <button class="reference-button" onclick="toggleReferenceOptions()">Add References</button>
 <div id="referenceOptions" class="reference-options">
-    <button onclick="showForm('journal')">Journal Reference</button>
-    <button onclick="showForm('conference')">Conference Reference</button>
-    <button onclick="showForm('webinar')">Webinar Reference</button>
-    <button onclick="showForm('fdp')">FDP Reference</button>
+    <button onclick="showJournalForm()">Journal Reference</button>
+    <button onclick="alert('Book Reference selected')">Book Reference</button>
+    <button onclick="alert('Webinar Reference selected')">Webinar Reference</button>
 </div>
 
-<!-- Journal Form -->
-<form id="journalForm">
-    <h3>Journal Reference</h3>
+<!-- Journal Submission Form -->
+<form id="journalForm" onsubmit="return validateForm()">
     <div class="form-group">
-        <label for="journalISSN">ISSN*</label>
-        <input type="text" id="journalISSN" placeholder="Enter ISSN" required>
-        <button type="button" onclick="fetchPublication('journal')">Fetch Details</button>
+        <label for="authors">Authors*</label>
+        <div id="authorsList" class="authors-list"></div>
     </div>
     <div class="form-group">
-        <label for="journalDOI">DOI*</label>
-        <input type="text" id="journalDOI" placeholder="Enter DOI" required>
-        <button type="button" onclick="verifyScopus('journal')">Verify in Scopus</button>
-        <div id="journalScopusStatus" style="color:blue; margin-top:5px;"></div>
+        <label for="journalTitle">Journal Title*</label>
+        <input type="text" id="journalTitle" name="journalTitle" required>
     </div>
     <div class="form-group">
-        <label>Authors</label>
-        <div id="journalAuthors" class="authors-list"></div>
+        <label for="paperTitle">Paper Title*</label>
+        <input type="text" id="paperTitle" name="paperTitle" required>
     </div>
     <div class="form-group">
-        <label>Title</label>
-        <input type="text" id="journalTitle">
+        <label for="datePublished">Date Published*</label>
+        <input type="date" id="datePublished" name="datePublished" required>
     </div>
     <div class="form-group">
-        <label>Volume</label>
-        <input type="text" id="journalVolume">
+        <label for="volume">Volume</label>
+        <input type="text" id="volume" name="volume">
     </div>
     <div class="form-group">
-        <label>Issue</label>
-        <input type="text" id="journalIssue">
+        <label for="issue">Issue</label>
+        <input type="text" id="issue" name="issue">
     </div>
     <div class="form-group">
-        <label>Pages</label>
-        <input type="text" id="journalPages">
+        <label for="doi">DOI*</label>
+        <input type="text" id="doi" name="doi" required>
+        <button type="button" onclick="fetchData()">Fetch Data</button>
     </div>
     <div class="form-group">
-        <label>Date Published</label>
-        <input type="date" id="journalDate">
+        <label for="issn">ISSN</label>
+        <div id="issnList" class="issn-list"></div>
     </div>
+    
+    <!-- University Verified Checkbox -->
+    <div class="form-group">
+        <input type="checkbox" id="universityVerified">
+        <label for="universityVerified">University Verified</label>
+    </div>
+
+    <div class="error" id="errorMessage"></div>
     <button type="submit" class="submit-button">Submit Journal</button>
-</form>
-
-<!-- Conference Form -->
-<form id="conferenceForm">
-    <h3>Conference Reference</h3>
-    <div class="form-group">
-        <label for="confISBN">ISBN*</label>
-        <input type="text" id="confISBN" placeholder="Enter ISBN" required>
-        <button type="button" onclick="fetchPublication('conference')">Fetch Details</button>
-    </div>
-    <div class="form-group">
-        <label for="confDOI">DOI*</label>
-        <input type="text" id="confDOI" placeholder="Enter DOI" required>
-        <button type="button" onclick="verifyScopus('conference')">Verify in Scopus</button>
-        <div id="confScopusStatus" style="color:blue; margin-top:5px;"></div>
-    </div>
-    <div class="form-group">
-        <label>Authors</label>
-        <div id="confAuthors" class="authors-list"></div>
-    </div>
-    <div class="form-group">
-        <label>Title</label>
-        <input type="text" id="confTitle">
-    </div>
-    <div class="form-group">
-        <label>Volume</label>
-        <input type="text" id="confVolume">
-    </div>
-    <div class="form-group">
-        <label>Pages</label>
-        <input type="text" id="confPages">
-    </div>
-    <div class="form-group">
-        <label>Date Published</label>
-        <input type="date" id="confDate">
-    </div>
-    <button type="submit" class="submit-button">Submit Conference</button>
-</form>
-
-<!-- Webinar Form -->
-<form id="webinarForm">
-    <h3>Webinar Reference</h3>
-    <div class="form-group">
-        <label>Title*</label>
-        <input type="text" id="webTitle" required>
-    </div>
-    <div class="form-group">
-        <label>Speakers</label>
-        <div id="webSpeakers" class="authors-list"></div>
-    </div>
-    <div class="form-group">
-        <label>Date Conducted</label>
-        <input type="date" id="webDate">
-    </div>
-    <button type="submit" class="submit-button">Submit Webinar</button>
-</form>
-
-<!-- FDP Form -->
-<form id="fdpForm">
-    <h3>FDP Reference</h3>
-    <div class="form-group">
-        <label>Title*</label>
-        <input type="text" id="fdpTitle" required>
-    </div>
-    <div class="form-group">
-        <label>Resource Person(s)</label>
-        <div id="fdpSpeakers" class="authors-list"></div>
-    </div>
-    <div class="form-group">
-        <label>Date Conducted</label>
-        <input type="date" id="fdpDate">
-    </div>
-    <button type="submit" class="submit-button">Submit FDP</button>
+    <button type="button" class="submit-button" onclick="refreshForm()">Refresh</button>
 </form>
 
 <script>
-// Toggle Reference Options
-function toggleReferenceOptions(){
-    const div = document.getElementById('referenceOptions');
-    div.style.display = (div.style.display==='block')?'none':'block';
-}
+    function toggleReferenceOptions() {
+        const referenceOptions = document.getElementById('referenceOptions');
+        referenceOptions.style.display = referenceOptions.style.display === 'none' || referenceOptions.style.display === '' ? 'block' : 'none';
+    }
 
-// Show specific form
-function showForm(type){
-    document.querySelectorAll('form').forEach(f=>f.style.display='none');
-    if(type==='journal') document.getElementById('journalForm').style.display='block';
-    else if(type==='conference') document.getElementById('conferenceForm').style.display='block';
-    else if(type==='webinar') document.getElementById('webinarForm').style.display='block';
-    else if(type==='fdp') document.getElementById('fdpForm').style.display='block';
-}
+    function showJournalForm() {
+        document.getElementById('journalForm').style.display = 'block';
+    }
 
-// Fetch publication details via ISSN/ISBN
-async function fetchPublication(type){
-    try{
-        let id='', authorsDiv, titleInput, volumeInput, issueInput, pagesInput, dateInput;
-        if(type==='journal'){
-            id=document.getElementById('journalISSN').value;
-            authorsDiv=document.getElementById('journalAuthors');
-            titleInput=document.getElementById('journalTitle');
-            volumeInput=document.getElementById('journalVolume');
-            issueInput=document.getElementById('journalIssue');
-            pagesInput=document.getElementById('journalPages');
-            dateInput=document.getElementById('journalDate');
-        }
-        else if(type==='conference'){
-            id=document.getElementById('confISBN').value;
-            authorsDiv=document.getElementById('confAuthors');
-            titleInput=document.getElementById('confTitle');
-            volumeInput=document.getElementById('confVolume');
-            pagesInput=document.getElementById('confPages');
-            dateInput=document.getElementById('confDate');
-        }
+    async function fetchData() {
+        const doi = document.getElementById('doi').value;
+        const url = `https://api.crossref.org/works/${encodeURIComponent(doi)}`;
 
-        const filterKey = (type==='journal')?'issn':'isbn';
-        const res=await fetch(`https://api.crossref.org/works?filter=${filterKey}:${id}`);
-        const data=await res.json();
-        if(data.message.items.length>0){
-            const pub=data.message.items[0];
-            titleInput.value=pub.title?.[0]||'';
-            if(volumeInput) volumeInput.value=pub.volume||'';
-            if(issueInput) issueInput.value=pub.issue||'';
-            if(pagesInput) pagesInput.value=pub.page||'';
-            if(dateInput && pub['published-print']?.['date-parts']?.[0])
-                dateInput.value=formatDate(pub['published-print']['date-parts'][0]);
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('DOI not found or invalid');
+            const data = await response.json();
 
-            authorsDiv.innerHTML='';
-            (pub.author||[]).forEach(a=>{
-                authorsDiv.innerHTML+=`<div class="author-row">${a.given||''} ${a.family||''}</div>`;
+            document.getElementById('journalTitle').value = data.message['container-title']?.[0] || 'Journal not available';
+            document.getElementById('paperTitle').value = data.message.title?.[0] || 'Title not available';
+            document.getElementById('volume').value = data.message.volume || '';
+            document.getElementById('issue').value = data.message.issue || '';
+            document.getElementById('datePublished').value = formatDate(data.message['published-online']?.['date-parts']?.[0] || data.message['published-print']?.['date-parts']?.[0]);
+
+            const issnList = document.getElementById('issnList');
+            issnList.innerHTML = '';
+            (data.message.ISSN || []).forEach(issn => {
+                issnList.innerHTML += `<div class="issn-row">${issn.replace(/-/g, '')}</div>`;
             });
-        } else alert('No publication found');
-    } catch(e){ console.error(e); alert('Error fetching publication'); }
-}
 
-// Format date
-function formatDate(dateParts){
-    if(!dateParts) return '';
-    return `${dateParts[0]}-${(dateParts[1]||1).toString().padStart(2,'0')}-${(dateParts[2]||1).toString().padStart(2,'0')}`;
-}
+            // Fetch and display authors
+            const authorsList = document.getElementById('authorsList');
+            authorsList.innerHTML = '';
+            if (data.message.author && data.message.author.length > 0) {
+                data.message.author.forEach(author => {
+                    const authorName = `${author.given || ''} ${author.family || ''}`.trim();
+                    if (authorName) {
+                        authorsList.innerHTML += `<div class="author-row">${authorName}</div>`;
+                    }
+                });
+            } else {
+                authorsList.innerHTML = '<div class="author-row">No authors found</div>';
+            }
 
-// Simulate Scopus Verification
-function verifyScopus(type){
-    const doi = type==='journal'?document.getElementById('journalDOI').value:
-                document.getElementById(type==='conference'?'confDOI':'' );
-    const statusDiv = type==='journal'?document.getElementById('journalScopusStatus'):
-                      document.getElementById('confScopusStatus');
-    if(doi) statusDiv.textContent='✅ DOI verified in Scopus';
-    else statusDiv.textContent='❌ DOI required';
-}
+            document.getElementById('errorMessage').textContent = '';
+        } catch (error) {
+            document.getElementById('errorMessage').textContent = error.message;
+        }
+    }
 
-// Submit form (just alert for now)
-function submitForm(type){
-    alert(type.toUpperCase()+' submitted!');
-    return false;
-}
+    function formatDate(dateParts) {
+        if (!dateParts) return '';
+                return `${dateParts[0]}-${(dateParts[1] || 1).toString().padStart(2, '0')}-${(dateParts[2] || 1).toString().padStart(2, '0')}`;
+    }
+
+    function refreshForm() {
+        // Clear all input fields
+        document.getElementById('journalTitle').value = '';
+        document.getElementById('paperTitle').value = '';
+        document.getElementById('datePublished').value = '';
+        document.getElementById('volume').value = '';
+        document.getElementById('issue').value = '';
+        document.getElementById('doi').value = '';
+        
+        // Clear authors and ISSN lists
+        document.getElementById('authorsList').innerHTML = '';
+        document.getElementById('issnList').innerHTML = '';
+        
+        // Clear error message
+        document.getElementById('errorMessage').textContent = '';
+        
+        // Uncheck the university verified checkbox
+        document.getElementById('universityVerified').checked = false;
+    }
 </script>
 
 </body>

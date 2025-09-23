@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9370bdb8-8913-49a2-9727-0d3ded8a7c10" name="Changes" comment="Version 2a of Scrapping added">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Version2a.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Version2a.java" afterDir="false" />
-    </list>
+    <list default="true" id="9370bdb8-8913-49a2-9727-0d3ded8a7c10" name="Changes" comment="Prototype restored" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,6 +37,20 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "LordOfHeat01"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="c62f51b9-54b6-4113-89c1-ebf880150e8b" />
+        <option name="url" value="https://github.com/LordOfHeat01/Chronicle-Testing.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -153,7 +164,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757871433101</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Prototype restored">
+      <option name="closed" value="true" />
+      <created>1758652055153</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1758652055153</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -169,7 +188,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Version 2a of Scrapping added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 2a of Scrapping added" />
+    <MESSAGE value="Prototype restored" />
+    <option name="LAST_COMMIT_MESSAGE" value="Prototype restored" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
