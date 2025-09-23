@@ -25,7 +25,7 @@ public class Version2a {
         WebDriver driver = new ChromeDriver(options);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-        List<String> orcids = Arrays.asList("0000-0002-2279-9373","0000-0001-5215-1300");
+        List<String> orcids = Arrays.asList("0000-0002-2279-9373","0000-0001-5215-1300","0000-0001-5384-6606");
 
         try {
             for (String orcid : orcids) {
