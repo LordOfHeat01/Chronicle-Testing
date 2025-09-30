@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9370bdb8-8913-49a2-9727-0d3ded8a7c10" name="Changes" comment="Prototype restored">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Version2a.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Version2a.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Version3c.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Version3c.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +81,7 @@
     "Application.Version3a.executor": "Run",
     "Application.Version3b.executor": "Run",
     "Application.Version3c.executor": "Run",
+    "Application.Version3d.executor": "Run",
     "Application.test.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
