@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.*;
 
-public class Version3c {
+public class Version3d {
     public static void main(String[] args) {
         // Setup WebDriver
         WebDriverManager.chromedriver().setup();
@@ -36,8 +36,30 @@ public class Version3c {
             driver.get(authorUrl);
             Thread.sleep(5000);
 
+            // NEW: Extract author name and document count BEFORE login
+            System.out.println("\n--- EXTRACTING AUTHOR INFORMATION ---");
+            String authorName = extractAuthorName(driver);
+            int totalDocuments = extractTotalDocuments(driver);
+             String [] name = authorName.split(", ");
+            System.out.println("Author Name: " + name[1] + " " + name[0]);
+            System.out.println("Total Documents: " + totalDocuments);
+
             // Step 2: Click Sign in button
             System.out.println("\nStep 2: Looking for Sign in button...");
+
+            // NEW: Handle "Maybe later" popup before clicking Sign in
+            System.out.println("Checking for 'Maybe later' popup...");
+            try {
+                WebElement maybeLaterButton = wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[contains(text(), 'Maybe later')]")
+                ));
+                System.out.println("Found 'Maybe later' popup. Clicking to dismiss...");
+                maybeLaterButton.click();
+                Thread.sleep(2000);
+            } catch (Exception e) {
+                System.out.println("No 'Maybe later' popup found.");
+            }
+
             WebElement signInButton = wait.until(ExpectedConditions.elementToBeClickable(
                     By.xpath("//span[contains(@class, 'Typography-module__lVnit') and text()='Sign in']")
             ));
@@ -224,15 +246,18 @@ public class Version3c {
                 documentsButton.click();
                 Thread.sleep(5000);
 
-                // STEP 12: Extract ALL articles with pagination
-                System.out.println("\nStep 12: Starting pagination-based extraction...");
-                Set<String> allArticles = extractAllArticlesWithPagination(driver, wait);
+                // STEP 12: Extract ALL articles with SMART pagination
+                System.out.println("\nStep 12: Starting SMART pagination-based extraction...");
+                System.out.println("Based on document count: " + totalDocuments + " documents");
+                Set<String> allArticles = extractAllArticlesWithSmartPagination(driver, wait, totalDocuments);
 
                 // Display final results
                 System.out.println("\n" + "=".repeat(60));
                 System.out.println("=== EXTRACTION COMPLETED ===");
                 System.out.println("=".repeat(60));
-                System.out.println("Total unique articles found: " + allArticles.size());
+                System.out.println("Author: " + authorName);
+                System.out.println("Expected Documents: " + totalDocuments);
+                System.out.println("Actual Articles Found: " + allArticles.size());
                 System.out.println("\n=== ALL ARTICLE TITLES ===");
 
                 int count = 1;
@@ -259,16 +284,109 @@ public class Version3c {
         }
     }
 
-    private static Set<String> extractAllArticlesWithPagination(WebDriver driver, WebDriverWait wait) {
-        Set<String> allArticles = new LinkedHashSet<>();
-        int pageNumber = 1;
-        boolean hasNextPage = true;
+    // NEW METHOD: Extract author name
+    private static String extractAuthorName(WebDriver driver) {
+        try {
+            WebElement authorNameElement = driver.findElement(
+                    By.cssSelector("h1[data-testid='author-profile-name']")
+            );
+            return authorNameElement.getText().trim();
+        } catch (Exception e) {
+            System.out.println("Could not extract author name: " + e.getMessage());
+            return "Unknown Author";
+        }
+    }
 
-        System.out.println("Starting pagination extraction...");
+    // NEW METHOD: Extract total document count
+    // UPDATED METHOD: Extract correct document count
+    private static int extractTotalDocuments(WebDriver driver) {
+        try {
+            // Try the correct selector with the typo 'uniclkable-count'
+            WebElement documentCountElement = driver.findElement(
+                    By.cssSelector("span[data-testid='uniclkable-count']")
+            );
+            String countText = documentCountElement.getText().trim();
+            System.out.println("Document count found: " + countText);
 
-        while (hasNextPage) {
+            int totalDocuments = Integer.parseInt(countText);
+            return totalDocuments;
+
+        } catch (Exception e) {
+            System.out.println("Could not extract document count from 'uniclkable-count': " + e.getMessage());
+
+            // Fallback: Try to find any element containing "Documents" and a number
             try {
-                System.out.println("\n--- Processing Page " + pageNumber + " ---");
+                String pageText = driver.findElement(By.tagName("body")).getText();
+                java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("Documents.*?(\\d+)");
+                java.util.regex.Matcher matcher = pattern.matcher(pageText);
+
+                if (matcher.find()) {
+                    String countStr = matcher.group(1);
+                    int count = Integer.parseInt(countStr);
+                    System.out.println("Found document count from text: " + count);
+                    return count;
+                }
+            } catch (Exception e2) {
+                System.out.println("Fallback method also failed: " + e2.getMessage());
+            }
+
+            return 10; // Safe default
+        }
+    }
+    private static int getDocumentCountFromPagination(WebDriver driver) {
+        try {
+            // Look for pagination text like "1-10 of 43"
+            String pageText = driver.findElement(By.tagName("body")).getText();
+
+            // Pattern for "X of Y" or "X-Y of Z"
+            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("of\\s+(\\d+,?\\d+)");
+            java.util.regex.Matcher matcher = pattern.matcher(pageText);
+
+            if (matcher.find()) {
+                String countStr = matcher.group(1).replace(",", "");
+                int count = Integer.parseInt(countStr);
+                System.out.println("Found document count from pagination: " + count);
+                return count;
+            }
+
+            // If no pagination text, count articles on first page and estimate
+            Set<String> firstPageArticles = extractArticlesFromCurrentPage(driver);
+            int firstPageCount = firstPageArticles.size();
+
+            if (firstPageCount == 10) {
+                // If first page has 10, there are probably more pages
+                System.out.println("First page has 10 articles. Total count unknown, will discover during pagination.");
+                return 20; // Conservative estimate
+            } else {
+                // If first page has less than 10, that's probably the total
+                System.out.println("First page has " + firstPageCount + " articles. Assuming this is the total.");
+                return firstPageCount;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Could not determine document count from pagination: " + e.getMessage());
+            return 20; // Safe default
+        }
+    }
+    // UPDATED METHOD: Smart pagination with known total
+    private static Set<String> extractAllArticlesWithSmartPagination(WebDriver driver, WebDriverWait wait, int totalDocuments) {
+        Set<String> allArticles = new LinkedHashSet<>();
+
+        try {
+            System.out.println("Starting SMART pagination extraction...");
+            System.out.println("Total documents to extract: " + totalDocuments);
+
+            // Calculate pages needed (10 articles per page) with ceiling
+            int articlesPerPage = 10;
+            int pagesNeeded = (int) Math.ceil((double) totalDocuments / articlesPerPage);
+            System.out.println("Pages needed: " + pagesNeeded + " (based on " + articlesPerPage + " articles per page)");
+
+            // Safety limit - don't go beyond 20 pages even if calculation says more
+            int maxPages = Math.min(pagesNeeded, 20);
+            System.out.println("Safety limit: Processing maximum " + maxPages + " pages");
+
+            for (int pageNumber = 1; pageNumber <= maxPages; pageNumber++) {
+                System.out.println("\n--- Processing Page " + pageNumber + " of " + maxPages + " ---");
 
                 // Wait for articles to load on current page
                 wait.until(ExpectedConditions.presenceOfElementLocated(
@@ -277,36 +395,62 @@ public class Version3c {
 
                 // Extract articles from current page
                 Set<String> currentPageArticles = extractArticlesFromCurrentPage(driver);
+
+                // Check if we're getting duplicates (stuck on same page)
+                int previousSize = allArticles.size();
                 allArticles.addAll(currentPageArticles);
+                int newArticles = allArticles.size() - previousSize;
 
-                System.out.println("Page " + pageNumber + ": Found " + currentPageArticles.size() + " articles");
-                System.out.println("Total so far: " + allArticles.size() + " articles");
-
-                // Check if Next button exists and is clickable
-                WebElement nextButton = findNextButton(driver);
-                if (nextButton != null && nextButton.isEnabled() && nextButton.isDisplayed()) {
-                    System.out.println("Next button found. Clicking to go to page " + (pageNumber + 1) + "...");
-
-                    // Click Next button using JavaScript for reliability
-                    JavascriptExecutor js = (JavascriptExecutor) driver;
-                    js.executeScript("arguments[0].click();", nextButton);
-
-                    // Wait for next page to load
-                    Thread.sleep(3000);
-                    pageNumber++;
-
-                } else {
-                    System.out.println("No more pages available. Next button not found or disabled.");
-                    hasNextPage = false;
+                if (newArticles == 0 && pageNumber > 1) {
+                    System.out.println("No new articles found. Possible pagination issue. Stopping.");
+                    break;
                 }
 
-            } catch (Exception e) {
-                System.out.println("Error on page " + pageNumber + ": " + e.getMessage());
-                hasNextPage = false;
+                System.out.println("Page " + pageNumber + ": Found " + currentPageArticles.size() + " articles (" + newArticles + " new)");
+                System.out.println("Total so far: " + allArticles.size() + " / " + totalDocuments + " articles");
+
+                // If we've collected more than expected, recalculate
+                if (allArticles.size() >= totalDocuments) {
+                    System.out.println("Reached or exceeded expected document count. Stopping.");
+                    break;
+                }
+
+                // If this is not the last page, click Next
+                if (pageNumber < maxPages) {
+                    WebElement nextButton = findNextButton(driver);
+                    if (nextButton != null && nextButton.isEnabled() && nextButton.isDisplayed()) {
+                        System.out.println("Clicking Next to go to page " + (pageNumber + 1) + "...");
+
+                        // Click Next button
+                        JavascriptExecutor js = (JavascriptExecutor) driver;
+                        js.executeScript("arguments[0].click();", nextButton);
+
+                        // Wait for next page to load
+                        Thread.sleep(3000);
+
+                        // Verify we actually moved to next page by checking if articles changed
+                        Set<String> verificationArticles = extractArticlesFromCurrentPage(driver);
+                        if (verificationArticles.equals(currentPageArticles)) {
+                            System.out.println("WARNING: Page didn't change after clicking Next. Stopping pagination.");
+                            break;
+                        }
+
+                    } else {
+                        System.out.println("Next button not available. Stopping early.");
+                        break;
+                    }
+                } else {
+                    System.out.println("Reached the maximum page limit.");
+                }
             }
+
+            System.out.println("\nSMART pagination completed! Processed " + (maxPages) + " pages");
+            System.out.println("Expected: " + totalDocuments + " documents, Actual: " + allArticles.size() + " articles");
+
+        } catch (Exception e) {
+            System.out.println("Error in SMART pagination: " + e.getMessage());
         }
 
-        System.out.println("\nPagination completed! Processed " + (pageNumber - 1) + " pages");
         return allArticles;
     }
 
