@@ -123,7 +123,7 @@ public class Version3d {
             }
 
             System.out.println("Found email field. Entering email...");
-            String email = "tapendraverma2012@gmail.com";
+            String email = "vidhisingh7985@gmail.com";
             emailField.clear();
             emailField.sendKeys(email);
             System.out.println("Email entered: " + email);
@@ -155,7 +155,7 @@ public class Version3d {
             ));
 
             System.out.println("Found password field. Please enter your password:");
-            String password = "Nitya@11";
+            String password = "Stella10@";
 
             System.out.println("Entering password...");
             passwordField.clear();
