@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9370bdb8-8913-49a2-9727-0d3ded8a7c10" name="Changes" comment="Prototype restored">
+    <list default="true" id="9370bdb8-8913-49a2-9727-0d3ded8a7c10" name="Changes" comment="Final Version of Selenium i,e Version3d added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Version3c.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Version3c.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Version3d.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Version3d.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,32 +66,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.DuckDuckGoSearch.executor": "Run",
-    "Application.GoogleSearchExample.executor": "Run",
-    "Application.LoginFormExample.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.ScopusScraper.executor": "Run",
-    "Application.Scrapper.executor": "Run",
-    "Application.Version2.executor": "Run",
-    "Application.Version2_Publications.executor": "Run",
-    "Application.Version2a.executor": "Run",
-    "Application.Version3a.executor": "Run",
-    "Application.Version3b.executor": "Run",
-    "Application.Version3c.executor": "Run",
-    "Application.Version3d.executor": "Run",
-    "Application.test.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "tapendra1",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Sk Computer/OneDrive/Desktop/oss",
-    "onboarding.tips.debug.path": "D:/COMPUTER SCIENCE ENGINEERING/Coding/Chronicle/src/main/java/org/example/Main.java"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.DuckDuckGoSearch.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GoogleSearchExample.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LoginFormExample.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Pattern.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ScopusScraper.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Scrapper.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Version2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Version2_Publications.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Version2a.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Version3a.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Version3b.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Version3c.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Version3d.executor&quot;: &quot;Run&quot;,
+    &quot;Application.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;tapendra1&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Sk Computer/OneDrive/Desktop/oss&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;D:/COMPUTER SCIENCE ENGINEERING/Coding/Chronicle/src/main/java/org/example/Main.java&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="GoogleSearchExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.GoogleSearchExample" />
@@ -160,8 +161,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Version3b" />
         <item itemvalue="Application.GoogleSearchExample" />
+        <item itemvalue="Application.Version3b" />
         <item itemvalue="Application.Scrapper" />
         <item itemvalue="Application.LoginFormExample" />
         <item itemvalue="Application.Main" />
@@ -201,7 +202,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758652410902</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Final Version of Selenium i,e Version3d added">
+      <option name="closed" value="true" />
+      <created>1759254503490</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1759254503490</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -218,7 +227,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Version 2a of Scrapping added" />
     <MESSAGE value="Prototype restored" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prototype restored" />
+    <MESSAGE value="Final Version of Selenium i,e Version3d added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final Version of Selenium i,e Version3d added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
