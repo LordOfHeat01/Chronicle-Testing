@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Chronicle - University Publication Management</title>
+<style>
+  /* General Body & Fonts */
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f0f2f5; color:#1f2937; }
+  header { background:#1e3a8a; color:white; padding:25px 20px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.15); }
+  h1 { margin:0; font-size:2rem; }
+  h2 { margin:5px 0 0; font-size:1.2rem; font-weight:400; }
+
+  /* Tabs */
+  nav { display:flex; justify-content:center; margin:20px 0; flex-wrap:wrap; gap:10px; }
+  .tab-btn { padding:10px 25px; cursor:pointer; background:#3b82f6; color:white; border:none; border-radius:8px; font-weight:600; transition:0.3s; }
+  .tab-btn:hover { background:#2563eb; }
+  .tab-btn.active { background:#1e40af; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
+
+  /* Tab Content Cards */
+  .tab-content { display:none; max-width:950px; margin:0 auto 40px auto; background:white; padding:25px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.1); transition:0.3s; }
+  .tab-content.active { display:block; }
+  h3 { margin-top:20px; color:#1e3a8a; border-bottom:2px solid #3b82f6; padding-bottom:5px; }
+
+  /* Input Fields */
+  .input-field { width:100%; padding:10px 12px; margin:6px 0; border:1px solid #cbd5e1; border-radius:8px; box-sizing:border-box; font-size:0.95rem; transition:0.3s; }
+  .input-field:focus { border-color:#3b82f6; outline:none; box-shadow:0 0 5px rgba(59,130,246,0.3); }
+
+  /* Buttons */
+  .fetch-btn, .submit-btn, .refresh-btn { padding:8px 16px; border:none; border-radius:8px; font-weight:600; cursor:pointer; transition:0.3s; margin-top:10px; }
+  .fetch-btn { background:#22c55e; color:white; margin-left:5px; }
+  .fetch-btn:hover { background:#16a34a; }
+  .submit-btn { background:#3b82f6; color:white; }
+  .submit-btn:hover { background:#2563eb; }
+  .refresh-btn { background:#6b7280; color:white; margin-left:10px; }
+  .refresh-btn:hover { background:#4b5563; }
+
+  .scopus-status { font-weight:bold; margin-left:10px; font-size:0.9rem; }
+  .scopus-status.verified { color:green; }
+  .scopus-status.not-verified { color:red; }
+
+  /* Grid Layout */
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:15px; align-items:center; }
+  .full-width { grid-column:1 / -1; }
+
+  /* Section Cards */
+  .section-card { background:#f9fafb; padding:15px 20px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.08); margin-top:15px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Smart Chronicle</h1>
+  <h2>University Publication Management System</h2>
+</header>
+
+<nav>
+  <button class="tab-btn active" onclick="openTab('journals')">Journals & Conferences</button>
+  <button class="tab-btn" onclick="openTab('books')">Books / Book Chapters</button>
+  <button class="tab-btn" onclick="openTab('fdp')">FDP</button>
+</nav>
+
+<!-- Journals & Conferences Tab -->
+<div id="journals" class="tab-content active">
+  <div class="section-card grid full-width">
+    <input type="text" id="journalDoi" placeholder="Enter DOI" class="input-field">
+    <div>
+      <button onclick="fetchJournalOrConference()" class="fetch-btn">Fetch</button>
+      <span id="journalScopusStatus" class="scopus-status" style="display:none;"></span>
+    </div>
+  </div>
+
+  <h3>Journal Fields</h3>
+  <div class="section-card grid">
+    <input type="text" id="journalAuthors" placeholder="Authors*">
+    <input type="text" id="journalPaperTitle" placeholder="Paper Title*">
+    <input type="text" id="journalTitle" placeholder="Journal Title*">
+    <input type="text" id="journalVolume" placeholder="Volume">
+    <input type="text" id="journalIssue" placeholder="Issue">
+    <input type="text" id="journalIssn" placeholder="ISSN">
+    <input type="date" id="journalDate" class="full-width">
+  </div>
+
+  <h3>Conference Fields</h3>
+  <div class="section-card grid">
+    <input type="text" id="confAuthors" placeholder="Authors*">
+    <input type="text" id="confPaperTitle" placeholder="Paper Title*">
+    <input type="text" id="confTitle" placeholder="Conference Title*">
+    <input type="date" id="confDate" placeholder="Date Conducted">
+    <input type="text" id="heldAt" placeholder="Held At" class="full-width">
+  </div>
+
+  <div>
+    <button class="submit-btn">Submit</button>
+    <button class="refresh-btn" onclick="clearJournalConference()">Refresh</button>
+  </div>
+</div>
+
+<!-- Books / Book Chapters Tab -->
+<div id="books" class="tab-content">
+  <h3>Books / Book Chapters References (Manual Entry)</h3>
+  <div class="section-card grid">
+    <input type="text" id="bookAuthors" placeholder="Authors*">
+    <input type="text" id="bookTitle" placeholder="Book Title*">
+    <input type="text" id="chapterTitle" placeholder="Chapter Title*">
+    <input type="text" id="isbn" placeholder="ISBN">
+    <input type="text" id="publisher" placeholder="Publisher">
+    <input type="date" id="bookDate" class="full-width">
+  </div>
+  <div>
+    <button class="submit-btn">Submit</button>
+    <button class="refresh-btn" onclick="clearBooks()">Refresh</button>
+  </div>
+</div>
+
+<!-- FDP Tab -->
+<div id="fdp" class="tab-content">
+  <h3>FDP / Workshops / Webinars</h3>
+  <div class="section-card grid">
+    <input type="text" id="fdpTitle" placeholder="Event Title*">
+    <input type="text" id="fdpConductedBy" placeholder="Conducted By">
+    <input type="date" id="fdpDate">
+    <input type="text" id="fdpDuration" placeholder="Duration">
+    <input type="text" id="fdpPlace" placeholder="Place" class="full-width">
+  </div>
+  <div>
+    <button class="submit-btn">Submit</button>
+    <button class="refresh-btn" onclick="clearFDP()">Refresh</button>
+  </div>
+</div>
+
+<script>
+function openTab(tabName){
+  document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+  document.getElementById(tabName).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+function clearJournalConference(){
+  ['journalDoi','journalAuthors','journalTitle','journalPaperTitle','journalVolume','journalIssue','journalIssn','journalDate',
+   'confAuthors','confPaperTitle','confTitle','confDate','heldAt'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('journalScopusStatus').style.display='none';
+}
+
+function clearBooks(){
+  ['bookAuthors','bookTitle','chapterTitle','isbn','publisher','bookDate'].forEach(id=>document.getElementById(id).value='');
+}
+
+function clearFDP(){
+  ['fdpTitle','fdpConductedBy','fdpDate','fdpDuration','fdpPlace'].forEach(id=>document.getElementById(id).value='');
+}
+
+async function fetchJournalOrConference(){
+    const doi = document.getElementById('journalDoi').value.trim();
+    if(!doi) return alert('Enter DOI');
+
+    try {
+        const res = await fetch(`https://api.crossref.org/works/${doi}`);
+        const data = await res.json();
+        const item = data.message;
+        const type = item.type;
+
+        if(type==='journal-article'){
+            document.getElementById('journalAuthors').value = item.author ? item.author.map(a=>`${a.given} ${a.family}`).join(', ') : '';
+            document.getElementById('journalPaperTitle').value = item.title ? item.title[0] : '';
+            document.getElementById('journalTitle').value = item['container-title'] ? item['container-title'][0] : '';
+            document.getElementById('journalVolume').value = item.volume || '';
+            document.getElementById('journalIssue').value = item.issue || '';
+            document.getElementById('journalIssn').value = item.ISSN ? item.ISSN[0] : '';
+            document.getElementById('journalDate').value = item['published-print'] ? item['published-print']['date-parts'][0].join('-') : '';
+            ['confAuthors','confPaperTitle','confTitle','confDate','heldAt'].forEach(id=>document.getElementById(id).value='');
+        } else if(type==='proceedings-article'){
+            document.getElementById('confAuthors').value = item.author ? item.author.map(a=>`${a.given} ${a.family}`).join(', ') : '';
+            document.getElementById('confPaperTitle').value = item.title ? item.title[0] : '';
+            document.getElementById('confTitle').value = item['container-title'] ? item['container-title'][0] : '';
+            document.getElementById('confDate').value = item['published-print'] ? item['published-print']['date-parts'][0].join('-') : '';
+            document.getElementById('heldAt').value = '';
+            ['journalAuthors','journalPaperTitle','journalTitle','journalVolume','journalIssue','journalIssn','journalDate'].forEach(id=>document.getElementById(id).value='');
+        }
+
+        const statusEl = document.getElementById('journalScopusStatus');
+        statusEl.style.display='inline-block';
+        statusEl.innerText='Checking...';
+        const verifyRes = await fetch(`/api/verifyScopus?doi=${doi}`);
+        const verifyData = await verifyRes.json();
+        if(verifyData.verified){
+            statusEl.className='scopus-status verified';
+            statusEl.innerText='Scopus Verified';
+        } else {
+            statusEl.className='scopus-status not-verified';
+            statusEl.innerText='Not Verified';
+        }
+
+    } catch(err){
+        alert('Error fetching DOI data');
+        console.error(err);
+    }
+}
+</script>
+
+</body>
+</html>
