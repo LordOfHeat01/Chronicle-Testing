@@ -1,16 +1,23 @@
 package org.example;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.*;
 
-public class Version3d {
+public class Version4a {
     public static void main(String[] args) {
         // Setup WebDriver
         WebDriverManager.chromedriver().setup();
@@ -29,10 +36,10 @@ public class Version3d {
 
         try {
             // Step 1: Open author profile page
-            String authorUrl = "https://www.scopus.com/authid/detail.uri?authorId=57203375935";
+            String authorUrl = "https://www.scopus.com/authid/detail.uri?authorId=56251578000";
             System.out.println("Step 1: Opening author profile page...");
             System.out.println("URL: " + authorUrl);
-//56251578000->pp 55367393200->mk 57203375935 ->aks
+//56251578000->pp
             driver.get(authorUrl);
             Thread.sleep(5000);
 
@@ -40,7 +47,7 @@ public class Version3d {
             System.out.println("\n--- EXTRACTING AUTHOR INFORMATION ---");
             String authorName = extractAuthorName(driver);
             int totalDocuments = extractTotalDocuments(driver);
-             String [] name = authorName.split(", ");
+            String [] name = authorName.split(", ");
             System.out.println("Author Name: " + name[1] + " " + name[0]);
             System.out.println("Total Documents: " + totalDocuments);
 
@@ -248,11 +255,11 @@ public class Version3d {
                 System.out.println("\n" + "=".repeat(60));
                 System.out.println("=== EXTRACTION COMPLETED ===");
                 System.out.println("=".repeat(60));
-                System.out.println("Author Name: " + name[1] + " " + name[0]);
+                System.out.println("Author: " + authorName);
                 System.out.println("Expected Documents: " + totalDocuments);
                 System.out.println("Actual Articles Found: " + allArticles.size());
                 System.out.println("\n=== ALL ARTICLE TITLES ===");
-
+                 filemake(allArticles);
                 int count = 1;
                 for (String title : allArticles) {
                     System.out.println(count + ". " + title);
@@ -276,7 +283,32 @@ public class Version3d {
             System.out.println("Browser closed.");
         }
     }
+ public static  void filemake(Set<String> Articles){
+     String filePath = "articles.txt";
+     int counter=1;
+     // 3. Use try-with-resources to automatically manage the writer
+     // This is the safest way to handle file I/O
+     try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath),
+             StandardOpenOption.CREATE,
+             StandardOpenOption.APPEND)) {
 
+         // 4. Loop through each string in your set
+         for (String article : Articles) {
+             // Write the string to the file
+             writer.write(counter + " - " + article);
+counter++;
+             // Write a new line after each string
+             writer.newLine();
+         }
+
+         System.out.println("Successfully appended articles to " + filePath);
+
+     } catch (IOException e) {
+         // Handle potential errors, e.g., file permissions
+         e.printStackTrace();
+         System.err.println("Error writing to file: " + e.getMessage());
+     }
+ }
     // NEW METHOD: Extract author name
     private static String extractAuthorName(WebDriver driver) {
         try {

@@ -1,0 +1,104 @@
+1 - Digitally Enhanced Adaptive Security: A Solution for Power Theft in Smart Cities
+2 - Integration of Deep Learning Algorithms into VANET
+3 - A Novel Framework for Text Preprocessing using NLP Approaches and Classification using Random Forest Grid Search Technique for Sentiment Analysis
+4 - A Phase Modulation-Based Approach for Theft-Proof Electricity Distribution in India Using CDMA Technology
+5 - Analyzing student dropout factors in engineering courses using a fuzzy based decision support system
+6 - An integrated MCDM approach for mobile app cost predictor based on DEMATEL extended with choquet integral
+7 - Investigating and prioritising different issues in wearable apps: An spherical Fuzzy-DEMATEL approach
+8 - Indicators of AI in Automation: An Evaluation Using Intuitionistic Fuzzy DEMATEL Method with Special Reference to Chat GPT
+9 - Trapezoidal fuzzy number methodology for prioritising the predictors of social media addiction
+10 - Empowering Hindu Women by Way of Smart Marriages
+11 - An Effective Framework for Sentiment Analysis of Hindi Sentiments Using Deep Learning Technique
+12 - APPLICATION OF THE SPHERICAL FUZZY DEMATEL MODEL FOR ASSESSING THE DRONE APPS ISSUES
+13 - Scrutinizing student dropout issues in MOOCs using an intuitionistic fuzzy decision support system
+14 - An Effective Framework for Sentiment Analysis Using RNN and LSTM-Based Deep Learning Approaches
+15 - A Transformer-Based Model for Evaluation of Information Relevance in Online Social-Media: A Case Study of Covid-19 Media Posts
+16 - Integrating Blockchain Technology with IoT and ML to Avoid Road Accidents Caused by Drunk Driving
+17 - Ensuring Elderly Well-Being During COVID-19 by Using the Internet of Things
+18 - An Analysis on Machine Learning Approaches for Sentiment Analysis
+19 - Combining blockchain and machine learning in healthcare and health informatics: An exploratory study
+20 - Ethical and legal aspects of using blockchain technology for 5G-based health-care systems
+21 - Exploring Blockchain and Smart Contract Technology for Reliable and Secure Land Registration and Record Management
+22 - Promoting Trustless Computation Through Blockchain Technology
+23 - Adaptive optimization-based deep convolutional long short-term memory for bank nifty index prediction
+24 - Importance of 5G-enabled IoT for industrial automation
+25 - Securing E-health Networks from Counterfeit Medicine Penetration Using Blockchain
+26 - Software process selection system based on multicriteria decision making
+27 - Technology intervention for preventing COVID-19 outbreak
+28 - Making Toll Charges Collection Efficient and Trustless: A Blockchain-Based Approach
+29 - Social, ethical, and regulatory issues of fog computing in healthcare 4.0 applications
+30 - Fuzzy Cognitive Mapping Analysis to Recommend Machine Learning-Based Effort Estimation Technique for Web Applications
+31 - An IoT Assisted System for Generating Emergency Alerts Using Routine Analysis
+32 - Implementing healthcare services on a large scale: Challenges and remedies based on blockchain technology
+33 - Stock Market Prediction Using Optimized Deep-ConvLSTM Model
+34 - Validation of Existing Software Effort Estimation Techniques in Context with Mobile Software Applications
+35 - Elderly care through unusual behavior detection: A disaster management approach using IoT and intelligence
+36 - Fuzzy AHP based identification model for efficient application development
+37 - Legal/regulatory issues for MMBD in IoT
+38 - Applicability of Machine Learning Methods on Mobile App Effort Estimation: Validation and Performance Evaluation
+39 - Identifying Causal Relationships in Mobile App Issues: An Interval Type-2 Fuzzy DEMATEL Approach
+40 - Application of Fuzzy DEMATEL Approach in Analyzing Mobile App Issues
+41 - Novel Approach for Mobile Based App Development Incorporating MAAF
+42 - Perception-based classification of mobile apps: A critical review
+43 - An activity vigilance system for elderly based on fuzzy probability transformations
+44 - Empirical Analysis of Defects in Handheld Device Applications
+45 - An ISM Approach for Modeling the Issues and Factors of Mobile App Development
+46 - An efficient time series forecasting method exploiting fuzziness and turbulences in data
+47 - Mobile APP development based on agility function
+48 - A framework for fuzzy modelling in agricultural diagnostics
+49 - Mobile applications in context of big data: A survey
+50 - A fuzzy decision making approach for analogy detection in new product forecasting
+51 - Forecasting using fuzzy time series for diffusion of innovation: Case of Tata Nano car in India
+52 - A critical evaluation of computational methods of forecasting based on fuzzy time series
+1 - Digitally Enhanced Adaptive Security: A Solution for Power Theft in Smart Cities
+2 - Integration of Deep Learning Algorithms into VANET
+3 - A Novel Framework for Text Preprocessing using NLP Approaches and Classification using Random Forest Grid Search Technique for Sentiment Analysis
+4 - A Phase Modulation-Based Approach for Theft-Proof Electricity Distribution in India Using CDMA Technology
+5 - Analyzing student dropout factors in engineering courses using a fuzzy based decision support system
+6 - An integrated MCDM approach for mobile app cost predictor based on DEMATEL extended with choquet integral
+7 - Investigating and prioritising different issues in wearable apps: An spherical Fuzzy-DEMATEL approach
+8 - Indicators of AI in Automation: An Evaluation Using Intuitionistic Fuzzy DEMATEL Method with Special Reference to Chat GPT
+9 - Trapezoidal fuzzy number methodology for prioritising the predictors of social media addiction
+10 - Empowering Hindu Women by Way of Smart Marriages
+11 - An Effective Framework for Sentiment Analysis of Hindi Sentiments Using Deep Learning Technique
+12 - APPLICATION OF THE SPHERICAL FUZZY DEMATEL MODEL FOR ASSESSING THE DRONE APPS ISSUES
+13 - Scrutinizing student dropout issues in MOOCs using an intuitionistic fuzzy decision support system
+14 - An Effective Framework for Sentiment Analysis Using RNN and LSTM-Based Deep Learning Approaches
+15 - A Transformer-Based Model for Evaluation of Information Relevance in Online Social-Media: A Case Study of Covid-19 Media Posts
+16 - Integrating Blockchain Technology with IoT and ML to Avoid Road Accidents Caused by Drunk Driving
+17 - Ensuring Elderly Well-Being During COVID-19 by Using the Internet of Things
+18 - An Analysis on Machine Learning Approaches for Sentiment Analysis
+19 - Combining blockchain and machine learning in healthcare and health informatics: An exploratory study
+20 - Ethical and legal aspects of using blockchain technology for 5G-based health-care systems
+21 - Exploring Blockchain and Smart Contract Technology for Reliable and Secure Land Registration and Record Management
+22 - Promoting Trustless Computation Through Blockchain Technology
+23 - Adaptive optimization-based deep convolutional long short-term memory for bank nifty index prediction
+24 - Importance of 5G-enabled IoT for industrial automation
+25 - Securing E-health Networks from Counterfeit Medicine Penetration Using Blockchain
+26 - Software process selection system based on multicriteria decision making
+27 - Technology intervention for preventing COVID-19 outbreak
+28 - Making Toll Charges Collection Efficient and Trustless: A Blockchain-Based Approach
+29 - Social, ethical, and regulatory issues of fog computing in healthcare 4.0 applications
+30 - Fuzzy Cognitive Mapping Analysis to Recommend Machine Learning-Based Effort Estimation Technique for Web Applications
+31 - An IoT Assisted System for Generating Emergency Alerts Using Routine Analysis
+32 - Implementing healthcare services on a large scale: Challenges and remedies based on blockchain technology
+33 - Stock Market Prediction Using Optimized Deep-ConvLSTM Model
+34 - Validation of Existing Software Effort Estimation Techniques in Context with Mobile Software Applications
+35 - Elderly care through unusual behavior detection: A disaster management approach using IoT and intelligence
+36 - Fuzzy AHP based identification model for efficient application development
+37 - Legal/regulatory issues for MMBD in IoT
+38 - Applicability of Machine Learning Methods on Mobile App Effort Estimation: Validation and Performance Evaluation
+39 - Identifying Causal Relationships in Mobile App Issues: An Interval Type-2 Fuzzy DEMATEL Approach
+40 - Application of Fuzzy DEMATEL Approach in Analyzing Mobile App Issues
+41 - Novel Approach for Mobile Based App Development Incorporating MAAF
+42 - Perception-based classification of mobile apps: A critical review
+43 - An activity vigilance system for elderly based on fuzzy probability transformations
+44 - Empirical Analysis of Defects in Handheld Device Applications
+45 - An ISM Approach for Modeling the Issues and Factors of Mobile App Development
+46 - An efficient time series forecasting method exploiting fuzziness and turbulences in data
+47 - Mobile APP development based on agility function
+48 - A framework for fuzzy modelling in agricultural diagnostics
+49 - Mobile applications in context of big data: A survey
+50 - A fuzzy decision making approach for analogy detection in new product forecasting
+51 - Forecasting using fuzzy time series for diffusion of innovation: Case of Tata Nano car in India
+52 - A critical evaluation of computational methods of forecasting based on fuzzy time series
