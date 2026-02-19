@@ -29,10 +29,10 @@ public class Version3d {
 
         try {
             // Step 1: Open author profile page
-            String authorUrl = "https://www.scopus.com/authid/detail.uri?authorId=57203375935";
+            String authorUrl = "https://www.scopus.com/authid/detail.uri?authorId=55367393200";
             System.out.println("Step 1: Opening author profile page...");
             System.out.println("URL: " + authorUrl);
-//56251578000->pp 55367393200->mk 57203375935 ->aks
+//56251578000->pp 55367393200->mk 57203375935 ->aks 36550140000->anjula arora jiit
             driver.get(authorUrl);
             Thread.sleep(5000);
 
@@ -452,11 +452,11 @@ public class Version3d {
 
         try {
             // Try multiple selectors to find article titles
-            String[] titleSelectors = {
-                    "td.Table-module__oZx3T.ReviewProfileDetails-module__vxcvN h5.ReviewProfileDetails-module__woWIS",
-                    ".document-title h5.ReviewProfileDetails-module__woWIS",
-                    ".ReviewProfileDetails-module__woWIS",
-                    "td.ReviewProfileDetails-module__vxcvN h5",
+            String[] titleSelectors = {".ReviewProfileDetails-module_woWIS",
+                    "td.Table-module__oZx3T.ReviewProfileDetails-module_yxcvN h5.ReviewProfileDetails-module_woWIS",
+                    ".document-title h5.ReviewProfileDetails-module_woWIS",
+
+                    "td.ReviewProfileDetails-module__yxcvN h5",
                     ".document-title h5"
             };
 

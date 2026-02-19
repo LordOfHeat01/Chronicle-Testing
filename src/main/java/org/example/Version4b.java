@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.*;
 
-public class Version4a {
+public class Version4b {
     public static void main(String[] args) {
         // Setup WebDriver
         WebDriverManager.chromedriver().setup();
@@ -29,7 +29,7 @@ public class Version4a {
 
         try {
             // Step 1: Open author profile page
-            String authorUrl = "https://www.scopus.com/authid/detail.uri?authorId=56251578000";
+            String authorUrl = "https://www.scopus.com/authid/detail.uri?authorId=36550140000";
             System.out.println("Step 1: Opening author profile page...");
             System.out.println("URL: " + authorUrl);
 //56251578000->pp 55367393200->mk 57203375935 ->aks 36550140000->anjula arora jiit
@@ -116,7 +116,7 @@ public class Version4a {
             }
 
             System.out.println("Found email field. Entering email...");
-            String email = "vidhisingh7985@gmail.com";
+            String email = "tapendraverma2012@gmail.com";
             emailField.clear();
             emailField.sendKeys(email);
             System.out.println("Email entered: " + email);
@@ -148,7 +148,7 @@ public class Version4a {
             ));
 
             System.out.println("Found password field. Please enter your password:");
-            String password = "Stella10@";
+            String password = "Nitya@11";
 
             System.out.println("Entering password...");
             passwordField.clear();
@@ -371,202 +371,156 @@ public class Version4a {
             System.out.println("Starting SMART pagination extraction...");
             System.out.println("Total documents to extract: " + totalDocuments);
 
-            // Calculate pages needed (10 articles per page) with ceiling
-            int articlesPerPage = 10;
+            // Scopus shows 20 articles per page (confirmed from logs)
+            int articlesPerPage = 20;
             int pagesNeeded = (int) Math.ceil((double) totalDocuments / articlesPerPage);
-            System.out.println("Pages needed: " + pagesNeeded + " (based on " + articlesPerPage + " articles per page)");
+            System.out.println("Pages needed: " + pagesNeeded + " (20 articles per page)");
 
-            // Safety limit - don't go beyond 20 pages even if calculation says more
-            int maxPages = Math.min(pagesNeeded, 20);
-            System.out.println("Safety limit: Processing maximum " + maxPages + " pages");
+            int maxPages = Math.min(pagesNeeded, 20); // safety cap
+            System.out.println("Processing maximum " + maxPages + " pages");
 
             for (int pageNumber = 1; pageNumber <= maxPages; pageNumber++) {
                 System.out.println("\n--- Processing Page " + pageNumber + " of " + maxPages + " ---");
 
-                // Wait for articles to load on current page
-                wait.until(ExpectedConditions.presenceOfElementLocated(
-                        By.cssSelector(".document-title, .Table-module__oZx3T, .ReviewProfileDetails-module__vxcvN")
-                ));
+                // Wait up to 10s for title divs to appear
+                try {
+                    new WebDriverWait(driver, Duration.ofSeconds(10)).until(d ->
+                            !((JavascriptExecutor) d)
+                                    .executeScript("return Array.from(document.querySelectorAll(\"div[class*='woWlS']\")).map(e => e.innerText);")
+                                    .toString().equals("[]")
+                    );
+                } catch (Exception e) {
+                    System.out.println("  Timed out waiting for titles, scraping anyway...");
+                }
 
-                // Extract articles from current page
+                // Scrape current page
                 Set<String> currentPageArticles = extractArticlesFromCurrentPage(driver);
 
-                // Check if we're getting duplicates (stuck on same page)
                 int previousSize = allArticles.size();
                 allArticles.addAll(currentPageArticles);
                 int newArticles = allArticles.size() - previousSize;
 
-                if (newArticles == 0 && pageNumber > 1) {
-                    System.out.println("No new articles found. Possible pagination issue. Stopping.");
-                    break;
-                }
-
                 System.out.println("Page " + pageNumber + ": Found " + currentPageArticles.size() + " articles (" + newArticles + " new)");
-                System.out.println("Total so far: " + allArticles.size() + " / " + totalDocuments + " articles");
+                System.out.println("Total so far: " + allArticles.size() + " / " + totalDocuments);
 
-                // If we've collected more than expected, recalculate
+                // Stop if we have everything
                 if (allArticles.size() >= totalDocuments) {
-                    System.out.println("Reached or exceeded expected document count. Stopping.");
+                    System.out.println("Reached expected document count. Done.");
                     break;
                 }
 
-                // If this is not the last page, click Next
-                if (pageNumber < maxPages) {
-                    WebElement nextButton = findNextButton(driver);
-                    if (nextButton != null && nextButton.isEnabled() && nextButton.isDisplayed()) {
-                        System.out.println("Clicking Next to go to page " + (pageNumber + 1) + "...");
+                // Stop if no Next needed
+                if (pageNumber >= maxPages) {
+                    System.out.println("Reached last page.");
+                    break;
+                }
 
-                        // Click Next button
-                        JavascriptExecutor js = (JavascriptExecutor) driver;
-                        js.executeScript("arguments[0].click();", nextButton);
+                // --- Click Next button ---
+                WebElement nextButton = findNextButton(driver);
+                if (nextButton == null) {
+                    System.out.println("Next button not found. Stopping.");
+                    break;
+                }
 
-                        // Wait for next page to load
-                        Thread.sleep(3000);
+                // Take a snapshot of ALL current titles to detect page change
+                Set<String> titlesBeforeClick = new LinkedHashSet<>(currentPageArticles);
+                System.out.println("Clicking Next → page " + (pageNumber + 1) + "...");
 
-                        // Verify we actually moved to next page by checking if articles changed
-                        Set<String> verificationArticles = extractArticlesFromCurrentPage(driver);
-                        if (verificationArticles.equals(currentPageArticles)) {
-                            System.out.println("WARNING: Page didn't change after clicking Next. Stopping pagination.");
-                            break;
-                        }
+                JavascriptExecutor js = (JavascriptExecutor) driver;
 
-                    } else {
-                        System.out.println("Next button not available. Stopping early.");
+                // Scroll Next button into view then click
+                js.executeScript("arguments[0].scrollIntoView({block:'center'});", nextButton);
+                Thread.sleep(500);
+                js.executeScript("arguments[0].click();", nextButton);
+
+                // Poll every second for up to 20 seconds until titles change
+                boolean pageChanged = false;
+                for (int attempt = 1; attempt <= 20; attempt++) {
+                    Thread.sleep(1000);
+                    Set<String> titlesNow = extractArticlesFromCurrentPage(driver);
+
+                    // Page has changed when we get different titles
+                    if (!titlesNow.isEmpty() && !titlesNow.equals(titlesBeforeClick)) {
+                        System.out.println("  Page changed confirmed at " + attempt + "s.");
+                        pageChanged = true;
                         break;
                     }
-                } else {
-                    System.out.println("Reached the maximum page limit.");
+                    System.out.println("  Waiting for page to change... (" + attempt + "s)");
+                }
+
+                if (!pageChanged) {
+                    // One last retry — scroll to top, re-find button, click again
+                    System.out.println("  Page didn't change. Scrolling to top and retrying click...");
+                    js.executeScript("window.scrollTo(0,0);");
+                    Thread.sleep(1000);
+                    nextButton = findNextButton(driver);
+                    if (nextButton != null) {
+                        js.executeScript("arguments[0].scrollIntoView({block:'center'});", nextButton);
+                        Thread.sleep(500);
+                        js.executeScript("arguments[0].click();", nextButton);
+                        Thread.sleep(6000); // give extra time
+                        Set<String> retryTitles = extractArticlesFromCurrentPage(driver);
+                        if (!retryTitles.isEmpty() && !retryTitles.equals(titlesBeforeClick)) {
+                            System.out.println("  Retry click successful!");
+                        } else {
+                            System.out.println("  Retry failed. Stopping pagination.");
+                            break;
+                        }
+                    } else {
+                        System.out.println("  Next button gone. Stopping.");
+                        break;
+                    }
                 }
             }
 
-            System.out.println("\nSMART pagination completed! Processed " + (maxPages) + " pages");
-            System.out.println("Expected: " + totalDocuments + " documents, Actual: " + allArticles.size() + " articles");
+            System.out.println("\nPagination completed!");
+            System.out.println("Expected: " + totalDocuments + " | Actual fetched: " + allArticles.size());
 
         } catch (Exception e) {
-            System.out.println("Error in SMART pagination: " + e.getMessage());
+            System.out.println("Error in pagination: " + e.getMessage());
+            e.printStackTrace();
         }
 
         return allArticles;
     }
 
     // =====================================================================
-    // ROOT CAUSE FIX: Scopus CSS modules use SINGLE underscore (_) not
-    // double (__). All previous selectors were wrong because of this.
-    //
-    // From actual HTML:
-    //   <div class="ReviewProfileDetails-module_woWlS"> article title </div>
-    //   inside <td class="Table-module_oZx3T ReviewProfileDetails-module_...">
-    //
-    // Strategy:
-    //  1. Try exact single-underscore CSS selectors first
-    //  2. Fall back to JS querySelectorAll with class*= wildcard (most robust)
-    //  3. Final fallback: grab all divs inside td cells and filter by text
+    // Targets ONLY the title div: ReviewProfileDetails-module__woWlS
+    // This div contains ONLY the article title text — no source/journal info.
+    // Uses JS innerText to handle lazy-rendered elements.
+    // Falls back to class*= wildcard in case the suffix varies slightly.
     // =====================================================================
     private static Set<String> extractArticlesFromCurrentPage(WebDriver driver) {
         Set<String> articles = new LinkedHashSet<>();
 
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
-            List<WebElement> titleElements = new ArrayList<>();
 
-            // ---------------------------------------------------------------
-            // ATTEMPT 1: CSS selectors with CORRECT single-underscore classes
-            // ---------------------------------------------------------------
-            String[] titleSelectors = {
-                    // Most specific: td cell → div with exact title class (single _)
-                    "td div[class*='ReviewProfileDetails-module_woWIS']",
-                    // Slightly broader: any div inside a ReviewProfile td
-                    "td[class*='ReviewProfileDetails-module_'] div[class*='ReviewProfileDetails-module_woWIS']",
-                    // Broad match on just the div title class
-                    "div[class*='ReviewProfileDetails-module_woW']"
-            };
+            // Use JavaScript to get all elements matching the exact title div class.
+            // class*='woWlS' is a wildcard match on the unique suffix of the title class,
+            // which avoids any single/double underscore ambiguity in the prefix.
+            @SuppressWarnings("unchecked")
+            List<WebElement> titleElements = (List<WebElement>) js.executeScript(
+                    "return Array.from(document.querySelectorAll(\"div[class*='woWlS']\"));"
+            );
 
-            for (String selector : titleSelectors) {
-                try {
-                    List<WebElement> elements = driver.findElements(By.cssSelector(selector));
-                    if (!elements.isEmpty()) {
-                        System.out.println("  [CSS matched] " + selector + " → " + elements.size() + " elements");
-                        titleElements = elements;
-                        break;
-                    }
-                } catch (Exception e) {
-                    // try next
-                }
-            }
-
-            // ---------------------------------------------------------------
-            // ATTEMPT 2: JavaScript wildcard querySelector — most robust,
-            // handles any small variation in the generated class suffix.
-            // Targets every div whose class contains "ReviewProfileDetails-module_"
-            // but is NOT a container/wrapper (those tend to be very short text).
-            // ---------------------------------------------------------------
-            if (titleElements.isEmpty()) {
-                System.out.println("  [CSS failed] Trying JS wildcard querySelector...");
-
-                @SuppressWarnings("unchecked")
-                List<WebElement> jsElements = (List<WebElement>) js.executeScript(
-                        "return Array.from(document.querySelectorAll(" +
-                                "  \"td div[class*='ReviewProfileDetails-module_']\"));"
-                );
-
-                if (jsElements != null && !jsElements.isEmpty()) {
-                    System.out.println("  [JS matched] " + jsElements.size() + " elements");
-                    titleElements = jsElements;
-                }
-            }
-
-            // ---------------------------------------------------------------
-            // ATTEMPT 3: Nuclear fallback — grab all divs inside table cells
-            // and keep only those whose text looks like an article title.
-            // ---------------------------------------------------------------
-            if (titleElements.isEmpty()) {
-                System.out.println("  [JS failed] Trying nuclear td > div fallback...");
-
-                @SuppressWarnings("unchecked")
-                List<WebElement> allTdDivs = (List<WebElement>) js.executeScript(
-                        "return Array.from(document.querySelectorAll('td div'));"
-                );
-
-                if (allTdDivs != null) {
-                    titleElements = allTdDivs;
-                    System.out.println("  [Nuclear] Found " + allTdDivs.size() + " td > div elements");
-                }
-            }
-
-            if (titleElements.isEmpty()) {
-                System.out.println("  WARNING: Absolutely no elements found. Page may not have loaded yet.");
+            if (titleElements == null || titleElements.isEmpty()) {
+                System.out.println("  WARNING: No title elements found on this page.");
                 return articles;
             }
 
-            // ---------------------------------------------------------------
-            // Extract and filter text from matched elements.
-            // Use JS innerText as fallback for off-screen / hidden elements.
-            // ---------------------------------------------------------------
+            System.out.println("  Found " + titleElements.size() + " title elements on this page.");
+
             for (WebElement element : titleElements) {
-                // Primary: Selenium getText()
-                String title = element.getText().trim();
+                // Use innerText — getText() can return empty for off-screen elements
+                Object raw = js.executeScript("return arguments[0].innerText;", element);
+                if (raw == null) continue;
 
-                // Fallback: JS innerText for lazy-rendered / off-screen elements
-                if (title.isEmpty()) {
-                    Object jsText = js.executeScript("return arguments[0].innerText;", element);
-                    if (jsText != null) {
-                        title = jsText.toString().trim();
-                    }
-                }
-
+                String title = raw.toString().trim();
                 // Strip surrounding quotes if present
                 title = title.replaceAll("^\"|\"$", "").trim();
 
-                // Filter: must be a real article title, not a button/nav label
-                if (!title.isEmpty()
-                        && title.length() >= 15   // article titles are at least 15 chars
-                        && !title.equalsIgnoreCase("Next")
-                        && !title.equalsIgnoreCase("Previous")
-                        && !title.equalsIgnoreCase("Documents")
-                        && !title.equalsIgnoreCase("Edit profile")
-                        && !title.equalsIgnoreCase("Continue")
-                        && !title.equalsIgnoreCase("Sign in")
-                        && !title.contains("\n")) {  // multi-line = container div, skip it
+                if (!title.isEmpty()) {
                     articles.add(title);
                 }
             }
@@ -579,32 +533,24 @@ public class Version4a {
         return articles;
     }
 
-    // =====================================================================
-    // FIXED: Next button selector updated to match actual Scopus HTML:
-    //   <button ...>
-    //     <span class="Typography-module_lVnit ...">Next</span>
-    //   </button>
-    // Single underscore (_) not double (__).
-    // We click the parent <button> element (not the span inside it).
-    // =====================================================================
     private static WebElement findNextButton(WebDriver driver) {
-        // Attempt 1: Find button whose child span contains exactly "Next"
-        // (single underscore in Typography-module_lVnit)
+        // Attempt 1: Exact match from actual Scopus paginator HTML
+        // <li class="page-item"><button ...><span ...>Next</span></button></li>
         try {
             return driver.findElement(
-                    By.xpath("//button[.//span[contains(@class,'Typography-module_lVnit') and normalize-space(text())='Next']]")
+                    By.xpath("//li[@class='page-item']//button[.//span[normalize-space(text())='Next']]")
             );
         } catch (Exception e1) {
-            // Attempt 2: Any button that contains a span with text "Next"
+            // Attempt 2: page-item class anywhere (in case extra classes added)
             try {
                 return driver.findElement(
                         By.xpath("//li[contains(@class,'page-item')]//button[.//span[normalize-space(text())='Next']]")
                 );
             } catch (Exception e2) {
-                // Attempt 3: Broadest fallback — any button with visible text Next
+                // Attempt 3: any button with a Next span anywhere on page
                 try {
                     return driver.findElement(
-                            By.xpath("//button[normalize-space(.)='Next' or .//span[normalize-space(text())='Next']]")
+                            By.xpath("//button[.//span[normalize-space(text())='Next']]")
                     );
                 } catch (Exception e3) {
                     return null;
